@@ -1,2 +1,2 @@
 # AI
-Repo for the course for AI in FMI
+Repo for the AI course in FMI

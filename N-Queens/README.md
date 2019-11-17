@@ -7,4 +7,4 @@ The problem is solved with the MinConflicts approach.
 Help sources:
 * https://medium.com/@carlosgonzalez_39141/using-ai-to-solve-the-n-queens-problem-2a5a9cc5c84c
 * https://cs.lmu.edu/~ray/classes/ai/assignment/2/answers/
-* Materials from the AI course in FMI
+* Materials from the AI course at FMI

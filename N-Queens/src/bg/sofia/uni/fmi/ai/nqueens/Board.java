@@ -38,8 +38,6 @@ public class Board {
         int MAX_ITER = MAX_N * 3;
 
         for (int i = 0; i < MAX_ITER; i++) {
-            i += 1;
-
             int max_col = getColWithMaxConf();
             // check if we have no conflicting queens
             if (max_col == -1) {

@@ -77,6 +77,7 @@ def run_alg(dataset, testset):
 
 def main():
     data = get_dataset()
+    shuffle(data)
 
     ratio = 10
     testset_size = int(len(data) / ratio)

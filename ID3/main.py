@@ -98,20 +98,55 @@ def id3(dataset):
     return {best_attribute: children}
 
 
+def get_count_of_class(cl, tree):
+    if not isinstance(tree, dict):
+        if tree == cl:
+            return 1
+        return 0
+
+    count = 0
+    for (key, children) in tree.items():
+        for child in children:
+            if not isinstance(child, dict) and child == cl:
+                count += 1
+            else:
+                count += get_count_of_class(cl, child)
+
+    return count
+
+
+def get_most_popular_class(tree):
+    '''
+    this is specific for the cancer dataset
+    '''
+    positive_count = get_count_of_class(DECISION_POSITIVE, tree)
+    negative_count = get_count_of_class(DECISION_NEGATIVE, tree)
+
+    if positive_count >= negative_count:
+        return positive_count
+
+    return negative_count
+
+
 def prune_tree(tree, validationset):
-    
+    pass
 
 
 def get_decision(data_entry, tree):
     # we have just one enty in the tree, the root
     for (key, children) in tree.items():
         data_entry_value = data_entry[key]
-
-        # decide on a path
-        path = children[data_entry_value]
+        try:
+            # decide on a path
+            path = children[data_entry_value]
+        except KeyError as k:
+            # we have an unknown value -> this does not guess well, we'll just ignore them
+            # return get_most_popular_class(tree)
+            raise k
 
         if not isinstance(path, dict):
             return path
+
         return get_decision(data_entry, path)
 
 
@@ -124,8 +159,7 @@ def run_set_through_tree(testset, tree):
 
             if decision == entry["class"]:
                 correct_count += 1
-        except KeyError as k:
-            # print("Unknown value: {}".format(k))
+        except KeyError:
             unknowns += 1
 
     return correct_count / (len(testset) - unknowns)
@@ -151,7 +185,7 @@ def main():
         testset = data[i:i + testset_size]
         dataset = data[0:i] + data[i + testset_size:]
 
-        accuracy = run_alg(dataset, testset)
+        accuracy = run_alg(dataset, [], testset)
         print(accuracy)
         sum += accuracy
 
